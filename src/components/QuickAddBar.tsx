@@ -10,7 +10,25 @@ type Props = {
   hidden?: boolean
 }
 
+function useIsMobile(maxWidth = 720) {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(`(max-width: ${maxWidth}px)`).matches : false,
+  )
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${maxWidth}px)`)
+    const onChange = () => setIsMobile(mq.matches)
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [maxWidth])
+
+  return isMobile
+}
+
 export function QuickAddBar({ items, categoryMemory, onAdd, hidden }: Props) {
+  const isMobile = useIsMobile()
+  const [open, setOpen] = useState(false)
   const [draft, setDraft] = useState<ItemDraft>(EMPTY_DRAFT)
   const [autoCategory, setAutoCategory] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -18,9 +36,11 @@ export function QuickAddBar({ items, categoryMemory, onAdd, hidden }: Props) {
   const nameRef = useRef<HTMLInputElement>(null)
   const categories = useMemo(() => collectCategories(items), [items])
 
+  const expanded = !isMobile || open
+
   useEffect(() => {
-    if (!hidden) nameRef.current?.focus()
-  }, [hidden])
+    if (!hidden && expanded) nameRef.current?.focus()
+  }, [hidden, expanded])
 
   if (hidden) return null
 
@@ -57,11 +77,37 @@ export function QuickAddBar({ items, categoryMemory, onAdd, hidden }: Props) {
     }
   }
 
+  if (!expanded) {
+    return (
+      <div className="quick-add quick-add-collapsed">
+        <button
+          type="button"
+          className="btn btn-primary btn-block"
+          onClick={() => setOpen(true)}
+        >
+          ＋ 商品を入力する
+        </button>
+        <p className="quick-add-collapsed-hint">入力中以外はしまってあるので、下の在庫をスクロールできます</p>
+      </div>
+    )
+  }
+
   return (
-    <section className="quick-add" aria-label="新しい商品を入力">
+    <section className={`quick-add ${isMobile ? 'is-mobile-open' : ''}`} aria-label="新しい商品を入力">
       <div className="quick-add-head">
-        <h2>すぐ入力</h2>
-        <p>どの欄からでもOK。Enter で次の商品へ</p>
+        <div>
+          <h2>すぐ入力</h2>
+          <p>どの欄からでもOK。Enter で次の商品へ</p>
+        </div>
+        {isMobile ? (
+          <button
+            type="button"
+            className="btn btn-ghost quick-add-close"
+            onClick={() => setOpen(false)}
+          >
+            閉じる
+          </button>
+        ) : null}
       </div>
 
       <div className="quick-add-grid">
