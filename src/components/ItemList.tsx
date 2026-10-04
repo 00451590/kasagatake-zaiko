@@ -5,6 +5,7 @@ type Props = {
   query: string
   onQueryChange: (value: string) => void
   onEdit: (item: InventoryItem) => void
+  onDelete: (item: InventoryItem) => void
   onAdjustStock: (id: string, delta: number) => void
   onUpdateStock: (id: string, stock: string) => void
   onUpdateOrder: (id: string, orderQty: string) => void
@@ -20,6 +21,7 @@ export function ItemList({
   query,
   onQueryChange,
   onEdit,
+  onDelete,
   onAdjustStock,
   onUpdateStock,
   onUpdateOrder,
@@ -57,7 +59,11 @@ export function ItemList({
       {filtered.length === 0 ? (
         <div className="empty-state">
           <p>{orderOnly ? '発注数が入っている商品はまだありません' : 'まだ商品がありません'}</p>
-          <p className="muted">上の「すぐ入力」から打ち込めます</p>
+          <p className="muted">
+            {orderOnly
+              ? '発注は「発注Excel」を出して、エクセルの黄色欄に書けます'
+              : '上の「すぐ入力」から打ち込めます'}
+          </p>
         </div>
       ) : (
         [...groups.entries()].map(([category, groupItems]) => (
@@ -131,22 +137,35 @@ export function ItemList({
                     </div>
 
                     <label className="order-control">
-                      <span className="control-label">発注</span>
+                      <span className="control-label">発注（アプリでも可）</span>
                       <input
                         value={item.orderQty}
                         onChange={(e) => onUpdateOrder(item.id, e.target.value)}
-                        placeholder="0"
+                        placeholder="エクセルでもOK"
                         aria-label={`${item.name}の発注数`}
                       />
                     </label>
 
-                    <button
-                      type="button"
-                      className="btn btn-ghost item-more"
-                      onClick={() => onEdit(item)}
-                    >
-                      削除など
-                    </button>
+                    <div className="item-actions">
+                      <button
+                        type="button"
+                        className="btn btn-secondary item-action-btn"
+                        onClick={() => onEdit(item)}
+                      >
+                        編集
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-danger item-action-btn"
+                        onClick={() => {
+                          if (confirm(`「${item.name}」を削除しますか？`)) {
+                            onDelete(item)
+                          }
+                        }}
+                      >
+                        削除
+                      </button>
+                    </div>
                   </div>
                 </li>
               ))}

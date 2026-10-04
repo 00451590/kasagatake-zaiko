@@ -233,8 +233,16 @@ button {
   min-height: 44px;
 }
 
-.item-more {
+.item-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  align-self: end;
+}
+
+.item-action-btn {
   min-height: 52px;
+  padding: 12px 10px;
 }
 
 .btn {
@@ -354,9 +362,10 @@ button {
 
 .item-controls {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: 1.3fr 1fr auto;
   gap: 10px;
   padding: 0 12px 14px;
+  align-items: end;
 }
 
 .control-label {
@@ -623,10 +632,17 @@ button {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 720px) {
   .item-controls {
     grid-template-columns: 1fr;
   }
+
+  .item-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
 
   .field-grid,
   .quick-add-grid,

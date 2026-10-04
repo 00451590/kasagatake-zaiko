@@ -10,7 +10,6 @@ type Props = {
   categoryMemory: Record<string, string>
   onClose: () => void
   onSave: (draft: ItemDraft, editingId?: string | null) => Promise<void>
-  onDelete?: (id: string) => Promise<void>
 }
 
 export function ItemForm({
@@ -20,7 +19,6 @@ export function ItemForm({
   categoryMemory,
   onClose,
   onSave,
-  onDelete,
 }: Props) {
   const [draft, setDraft] = useState<ItemDraft>(EMPTY_DRAFT)
   const [autoCategory, setAutoCategory] = useState(true)
@@ -178,20 +176,6 @@ export function ItemForm({
           >
             {saving ? '保存中…' : '保存する'}
           </button>
-          {editing && onDelete ? (
-            <button
-              type="button"
-              className="btn btn-danger btn-block"
-              disabled={saving}
-              onClick={() => {
-                if (confirm(`「${editing.name}」を削除しますか？`)) {
-                  void onDelete(editing.id).then(onClose)
-                }
-              }}
-            >
-              削除する
-            </button>
-          ) : null}
         </div>
       </div>
     </div>

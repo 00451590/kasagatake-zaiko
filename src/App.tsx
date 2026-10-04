@@ -134,10 +134,13 @@ function App() {
               items={inventory.items}
               query={query}
               onQueryChange={setQuery}
-              orderOnly={view === 'order'}
+              orderOnly={false}
               onEdit={(item) => {
                 setEditing(item)
                 setFormOpen(true)
+              }}
+              onDelete={(item) => {
+                void inventory.deleteItem(item.id)
               }}
               onAdjustStock={(id, delta) => {
                 void inventory.adjustStock(id, delta)
@@ -166,7 +169,6 @@ function App() {
           setEditing(null)
         }}
         onSave={inventory.saveItem}
-        onDelete={inventory.deleteItem}
       />
     </div>
   )
