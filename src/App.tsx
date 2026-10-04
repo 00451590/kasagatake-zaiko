@@ -20,7 +20,6 @@ function App() {
   const inventory = useInventory(settings)
 
   const title = useMemo(() => {
-    if (view === 'order') return '発注'
     if (view === 'settings') return '設定'
     return '在庫一覧'
   }, [view])
@@ -51,11 +50,7 @@ function App() {
           <span className={`sync-pill ${inventory.cloudEnabled ? 'is-live' : 'is-local'}`}>
             {inventory.syncLabel}
           </span>
-          <span className="count-pill">
-            {view === 'order'
-              ? `発注 ${inventory.stats.orderCount}件`
-              : `商品 ${inventory.stats.total}件`}
-          </span>
+          <span className="count-pill">商品 {inventory.stats.total}件</span>
         </div>
       </header>
 
@@ -66,13 +61,6 @@ function App() {
           onClick={() => setView('list')}
         >
           在庫
-        </button>
-        <button
-          type="button"
-          className={view === 'order' ? 'tab is-active' : 'tab'}
-          onClick={() => setView('order')}
-        >
-          発注
         </button>
         <button
           type="button"
@@ -103,7 +91,6 @@ function App() {
             <QuickAddBar
               items={inventory.items}
               categoryMemory={inventory.categoryMemory}
-              hidden={view === 'order'}
               onAdd={async (draft) => {
                 await inventory.saveItem(draft)
               }}
@@ -134,7 +121,6 @@ function App() {
               items={inventory.items}
               query={query}
               onQueryChange={setQuery}
-              orderOnly={false}
               onEdit={(item) => {
                 setEditing(item)
                 setFormOpen(true)
@@ -147,9 +133,6 @@ function App() {
               }}
               onUpdateStock={(id, stock) => {
                 void inventory.updateFields(id, { stock })
-              }}
-              onUpdateOrder={(id, orderQty) => {
-                void inventory.updateFields(id, { orderQty })
               }}
               onUpdateField={(id, patch) => {
                 void inventory.updateFields(id, patch)

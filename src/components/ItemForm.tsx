@@ -136,24 +136,14 @@ export function ItemForm({
           />
         </label>
 
-        <div className="field-grid">
-          <label className="field">
-            <span>在庫数</span>
-            <input
-              value={draft.stock}
-              onChange={(e) => setField('stock', e.target.value)}
-              placeholder="例: 3"
-            />
-          </label>
-          <label className="field">
-            <span>発注数</span>
-            <input
-              value={draft.orderQty}
-              onChange={(e) => setField('orderQty', e.target.value)}
-              placeholder="後からでもOK"
-            />
-          </label>
-        </div>
+        <label className="field">
+          <span>在庫数</span>
+          <input
+            value={draft.stock}
+            onChange={(e) => setField('stock', e.target.value)}
+            placeholder="例: 3"
+          />
+        </label>
 
         <label className="field">
           <span>備考</span>

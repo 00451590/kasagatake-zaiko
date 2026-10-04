@@ -24,7 +24,7 @@ export type AppSettings = {
   firebase: FirebaseWebConfig | null
 }
 
-export type ViewMode = 'list' | 'order' | 'settings'
+export type ViewMode = 'list' | 'settings'
 
 export type ItemDraft = {
   name: string

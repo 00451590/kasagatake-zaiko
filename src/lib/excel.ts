@@ -75,19 +75,19 @@ export async function exportFullExcel(items: InventoryItem[]) {
     properties: { defaultRowHeight: 22 },
   })
 
-  ws.mergeCells('A1:F1')
+  ws.mergeCells('A1:E1')
   const title = ws.getCell('A1')
   title.value = `笠ヶ岳山荘 在庫一覧（${todayLabel()}）`
   title.font = { bold: true, size: 16, name: 'Yu Gothic', color: { argb: 'FF1F4D3A' } }
   title.alignment = { vertical: 'middle', horizontal: 'left' }
   ws.getRow(1).height = 32
 
-  ws.mergeCells('A2:F2')
+  ws.mergeCells('A2:E2')
   const sub = ws.getCell('A2')
   sub.value = `全${items.length}件 ／ カテゴリごとに見やすく並べています`
   sub.font = { size: 10, name: 'Yu Gothic', color: { argb: 'FF5D6F64' } }
 
-  const headers = ['商品名', 'カテゴリ', '1個口', '在庫数', '発注数', '備考']
+  const headers = ['商品名', 'カテゴリ', '1個口', '在庫数', '備考']
   const headerRow = ws.addRow(headers)
   styleHeaderRow(headerRow, 'FF1F4D3A')
 
@@ -96,7 +96,6 @@ export async function exportFullExcel(items: InventoryItem[]) {
     { key: 'category', width: 20 },
     { key: 'pack', width: 12 },
     { key: 'stock', width: 10 },
-    { key: 'order', width: 10 },
     { key: 'note', width: 28 },
   ]
 
@@ -112,8 +111,8 @@ export async function exportFullExcel(items: InventoryItem[]) {
     const category = item.category.trim() || 'その他'
     if (category !== lastCategory) {
       lastCategory = category
-      const catRow = ws.addRow([`■ ${category}`, '', '', '', '', ''])
-      ws.mergeCells(`A${catRow.number}:F${catRow.number}`)
+      const catRow = ws.addRow([`■ ${category}`, '', '', '', ''])
+      ws.mergeCells(`A${catRow.number}:E${catRow.number}`)
       catRow.height = 24
       const cell = catRow.getCell(1)
       cell.font = { bold: true, size: 11, name: 'Yu Gothic', color: { argb: 'FF1F4D3A' } }
@@ -131,13 +130,12 @@ export async function exportFullExcel(items: InventoryItem[]) {
       category,
       item.packSize,
       item.stock,
-      item.orderQty,
       item.note,
     ])
     row.height = 24
     row.eachCell((cell, col) => {
       styleDataCell(cell, zebra)
-      if (col === 4 || col === 5) {
+      if (col === 4) {
         cell.alignment = { vertical: 'middle', horizontal: 'center' }
       }
     })
@@ -145,13 +143,13 @@ export async function exportFullExcel(items: InventoryItem[]) {
   }
 
   if (sorted.length === 0) {
-    const empty = ws.addRow(['（まだ商品がありません）', '', '', '', '', ''])
-    ws.mergeCells(`A${empty.number}:F${empty.number}`)
+    const empty = ws.addRow(['（まだ商品がありません）', '', '', '', ''])
+    ws.mergeCells(`A${empty.number}:E${empty.number}`)
   }
 
   ws.autoFilter = {
     from: { row: 3, column: 1 },
-    to: { row: Math.max(3, ws.rowCount), column: 6 },
+    to: { row: Math.max(3, ws.rowCount), column: 5 },
   }
 
   await downloadWorkbook(wb, `笠ヶ岳山荘_在庫一覧_${stamp()}.xlsx`)

@@ -8,12 +8,10 @@ type Props = {
   onDelete: (item: InventoryItem) => void
   onAdjustStock: (id: string, delta: number) => void
   onUpdateStock: (id: string, stock: string) => void
-  onUpdateOrder: (id: string, orderQty: string) => void
   onUpdateField: (
     id: string,
     patch: Partial<Pick<InventoryItem, 'name' | 'category' | 'packSize' | 'note'>>,
   ) => void
-  orderOnly?: boolean
 }
 
 export function ItemList({
@@ -24,15 +22,12 @@ export function ItemList({
   onDelete,
   onAdjustStock,
   onUpdateStock,
-  onUpdateOrder,
   onUpdateField,
-  orderOnly = false,
 }: Props) {
   const filtered = items.filter((item) => {
-    if (orderOnly && item.orderQty.trim() === '') return false
     const q = query.trim()
     if (!q) return true
-    return [item.name, item.category, item.packSize, item.note, item.stock, item.orderQty]
+    return [item.name, item.category, item.packSize, item.note, item.stock]
       .join(' ')
       .includes(q)
   })
@@ -58,12 +53,8 @@ export function ItemList({
 
       {filtered.length === 0 ? (
         <div className="empty-state">
-          <p>{orderOnly ? '発注数が入っている商品はまだありません' : 'まだ商品がありません'}</p>
-          <p className="muted">
-            {orderOnly
-              ? '発注は「発注Excel」を出して、エクセルの黄色欄に書けます'
-              : '上の「すぐ入力」から打ち込めます'}
-          </p>
+          <p>まだ商品がありません</p>
+          <p className="muted">上の「すぐ入力」から打ち込めます</p>
         </div>
       ) : (
         [...groups.entries()].map(([category, groupItems]) => (
@@ -135,16 +126,6 @@ export function ItemList({
                         </button>
                       </div>
                     </div>
-
-                    <label className="order-control">
-                      <span className="control-label">発注（アプリでも可）</span>
-                      <input
-                        value={item.orderQty}
-                        onChange={(e) => onUpdateOrder(item.id, e.target.value)}
-                        placeholder="エクセルでもOK"
-                        aria-label={`${item.name}の発注数`}
-                      />
-                    </label>
 
                     <div className="item-actions">
                       <button

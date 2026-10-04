@@ -161,16 +161,6 @@ export function QuickAddBar({ items, categoryMemory, onAdd, hidden }: Props) {
           />
         </label>
 
-        <label className="field">
-          <span>発注数</span>
-          <input
-            value={draft.orderQty}
-            onChange={(e) => setField('orderQty', e.target.value)}
-            onKeyDown={onKeyDown}
-            placeholder="後からでもOK"
-          />
-        </label>
-
         <label className="field quick-add-note">
           <span>備考</span>
           <input
