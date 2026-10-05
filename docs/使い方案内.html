@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>笠ヶ岳山荘 在庫管理 使い方</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;600;700&family=Shippori+Mincho:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --forest: #1f4d3a;
+        --moss: #3f7a58;
+        --bg: #e8efe8;
+        --sand: #f7f3ea;
+        --ink: #1a2a22;
+        --muted: #5d6f64;
+        --line: #c3d0c5;
+        --warn: #c45c26;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: 'IBM Plex Sans JP', sans-serif;
+        color: var(--ink);
+        background: #dfe8e1;
+      }
+      .poster {
+        width: 1080px;
+        min-height: 1520px;
+        margin: 0 auto;
+        padding: 48px 44px 40px;
+        background:
+          radial-gradient(circle at top left, rgba(63, 122, 88, 0.16), transparent 40%),
+          linear-gradient(180deg, #f4f8f4 0%, var(--bg) 100%);
+      }
+      .brand {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      .brand .kicker {
+        letter-spacing: 0.16em;
+        color: var(--moss);
+        font-size: 18px;
+        margin: 0 0 8px;
+      }
+      .brand h1 {
+        margin: 0;
+        font-family: 'Shippori Mincho', serif;
+        font-size: 54px;
+        color: var(--forest);
+        line-height: 1.2;
+      }
+      .brand .sub {
+        margin: 8px 0 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--forest);
+      }
+      .url-box {
+        background: var(--forest);
+        color: white;
+        border-radius: 22px;
+        padding: 22px 24px;
+        margin-bottom: 28px;
+        text-align: center;
+      }
+      .url-box .label {
+        margin: 0 0 8px;
+        font-size: 18px;
+        opacity: 0.9;
+      }
+      .url-box .url {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 700;
+        word-break: break-all;
+        line-height: 1.35;
+      }
+      .pin {
+        margin-top: 12px;
+        display: inline-block;
+        background: rgba(255,255,255,0.16);
+        border-radius: 999px;
+        padding: 8px 18px;
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .steps {
+        display: grid;
+        gap: 16px;
+      }
+      .step {
+        display: grid;
+        grid-template-columns: 72px 1fr;
+        gap: 16px;
+        align-items: start;
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 18px 20px;
+        box-shadow: 0 10px 24px rgba(22, 54, 40, 0.08);
+      }
+      .num {
+        width: 72px;
+        height: 72px;
+        border-radius: 18px;
+        background: var(--forest);
+        color: white;
+        display: grid;
+        place-items: center;
+        font-size: 34px;
+        font-weight: 700;
+      }
+      .step h2 {
+        margin: 0 0 6px;
+        font-size: 28px;
+        color: var(--forest);
+      }
+      .step p {
+        margin: 0;
+        font-size: 22px;
+        line-height: 1.5;
+        color: var(--ink);
+      }
+      .step .hint {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+      .note {
+        margin-top: 24px;
+        background: var(--sand);
+        border: 1px solid #d8cdb8;
+        border-radius: 18px;
+        padding: 18px 20px;
+      }
+      .note h3 {
+        margin: 0 0 8px;
+        font-size: 22px;
+        color: var(--warn);
+      }
+      .note p {
+        margin: 0;
+        font-size: 20px;
+        line-height: 1.55;
+      }
+      .footer {
+        margin-top: 22px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="poster" id="poster">
+      <div class="brand">
+        <p class="kicker">KASAGATAKE SANSO</p>
+        <h1>笠ヶ岳山荘</h1>
+        <p class="sub">在庫管理アプリ 使い方</p>
+      </div>
+
+      <div class="url-box">
+        <p class="label">このアドレスを開く</p>
+        <p class="url">https://00451590.github.io/kasagatake-zaiko/</p>
+        <div class="pin">最初の番号（PIN）… 1234</div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <div>
+            <h2>アプリを開く</h2>
+            <p>上のアドレスをスマホやPCのブラウザで開きます。</p>
+            <p class="hint">番号 1234 を入れて「はじめる」</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">2</div>
+          <div>
+            <h2>商品を入れる</h2>
+            <p>「＋ 商品を入力する」を押して、商品名・1個口・在庫などを打ち込み、「入れる」。</p>
+            <p class="hint">カテゴリはだいたい自動で入ります。手直しもできます。</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">3</div>
+          <div>
+            <h2>在庫を見る・直す</h2>
+            <p>一覧をスクロールして確認。在庫は「−」「＋」で増減できます。</p>
+            <p class="hint">スマホでは入力欄を「閉じる」と、一覧がスクロールしやすくなります。</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">4</div>
+          <div>
+            <h2>編集・削除</h2>
+            <p>各商品の「編集」「削除」ボタンを使います。</p>
+            <p class="hint">削除の前に確認が出ます。</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">5</div>
+          <div>
+            <h2>Excelで出す</h2>
+            <p>「在庫Excel」…全部の在庫表</p>
+            <p>「発注Excel」…発注用。黄色い「発注数」欄にエクセル上で書き込みます。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>みんなで使うとき</h3>
+        <p>同じアドレスを開けば、PC・スマホで同じ在庫が見えます。インターネット接続が必要です。スタッフ以外にはアドレスを渡さないでください。</p>
+      </div>
+
+      <p class="footer">笠ヶ岳山荘 在庫管理 ／ 困ったときは管理者へ</p>
+    </div>
+  </body>
+</html>
