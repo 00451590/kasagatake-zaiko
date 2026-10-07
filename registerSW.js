@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/kasagatake-zaiko/sw.js', { scope: '/kasagatake-zaiko/' })})}
